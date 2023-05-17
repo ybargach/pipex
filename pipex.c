@@ -1,38 +1,92 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/wait.h>
 
-int main(int argc, char const *argv[])
-{
-	unlink("result.txt");
-	return 0;
-}
+#include "pipex.h"
 
-
-
-// int main(int argc, char const *argv[])
+//  int main(int ac, char **av, char **envp)
 // {
-// 	int pipeline[2];
-// 	pipe(pipeline);
+// 	int		a;
+// 	int		b;
+// 	int		i;
+// 	int		j;
+// 	int 	p[2];
+// 	int		pid;
+// 	int		pid2;
+// 	int		fd;
+// 	int		fd2;
+// 	int		exe;
+// 	int		exe2;
+// 	char	*path;
+// 	char	*path2;
+// 	char	**paths;
+// 	char	**first_cmd;
+// 	char	**second_cmd;
 
-// 	int d = fork();
-
-// 	if(d == 0)
+// 	a = 0;
+// 	b = 0;
+// 	if (pipe(p) == -1)
+// 		return (0);
+// 	pid = fork();
+// 	if (pid == -1)
+// 		return (0);
+// 	while (envp[a])
 // 	{
-// 		char c = 'a';
-// 		write(pipeline[1], &c, 1);
-// 		printf("send | %c | from child 1 files | %d | %d |\n", c, pipeline[0], pipeline[1]);
+// 		if (strncmp(envp[a] , "PATH=", 5) == 0)
+// 			path = envp[a];
+// 		a++;
 // 	}
-
-// 	else{
-// 		int k = fork();
-// 		if(k == 0)
+// 	paths = ft_split(path, ':');
+// 	first_cmd = ft_split(av[2], ' ');
+// 	second_cmd = ft_split(av[3], ' ');
+// 	while (paths && paths[b])
+// 	{
+// 		path = ft_strjoin(paths[b], av[2]);
+// 		if (access(path, X_OK) == 0)
 // 		{
-// 			char x;
-// 			read(pipeline[0], &x, 1);
-// 			printf("recive | %c | from child 2 files | %d | %d |\n", x, pipeline[0], pipeline[1]);
+// 			i++;
+// 			break;
 // 		}
+// 		b++;
 // 	}
-// 	return 0;
+// 	b = 0;
+// 	while(path[b])
+// 	{
+// 		path2 = ft_strjoin(paths[b], av[3]);
+// 		if (access(path2, X_OK) == 0)
+// 			break;
+// 		b++;
+// 	}
+// 	if (pid == 0)
+// 	{
+// 		fd = open(av[1], O_RDWR, 0777);
+// 		if (fd == -1)
+// 			return (0);
+// 		dup2(fd, 0);
+// 		dup2(p[1], 1);
+// 		close(p[0]);
+// 		close(p[1]);
+// 		exe = execve(path, first_cmd,envp);
+// 		if (exe == -1)
+// 			return (0);
+// 	}
+// 	else
+// 	{
+// 		wait(NULL);
+// 		pid2 = fork();
+// 		if (pid2 == -1)
+// 			return (0);
+// 		if (pid2 == 0)
+// 		{
+// 			fd2 = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+// 			if (fd2 == -1)
+// 				return (0);
+// 			dup2(fd2, 1);
+// 			dup2(p[0], 0);
+// 			close(p[0]);
+// 			close(p[1]);
+// 			exe2 = execve(path2, second_cmd,envp);
+// 			if (exe2 == -1)
+// 				return (0);
+// 		}
+// 		close(p[0]);
+// 		close(p[1]);
+// 	}
 // }
