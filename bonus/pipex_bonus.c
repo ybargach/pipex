@@ -6,11 +6,11 @@
 /*   By: ybargach <ybargach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 10:20:25 by ybargach          #+#    #+#             */
-/*   Updated: 2023/05/20 19:13:20 by ybargach         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:46:45 by ybargach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	execve_path(char **av, t_pipex arr)
 {
@@ -61,10 +61,7 @@ void	execve_function(t_pipex arr)
 	close(arr.p[1]);
 	arr.exe = execve(arr.fcmd, arr.cmd, arr.env);
 	if (arr.exe == -1)
-	{
-		ft_putstr_fd(*arr.cmd, 2);
-		write(2, ": Command not found\n", 20);
-	}
+		write(2, "Command not found:\n", 19);
 	exit(0);
 }
 
@@ -74,10 +71,13 @@ int	main(int ac, char **av, char **env)
 
 	arr.env = env;
 	arr.c = 0;
-	if (ac != 4)
+	if (ac > 4)
 	{
 		arr.path = check_path(env, arr);
-		multi_pipex(ac, av, arr);
+		if (ft_strcmp(av[1], "here_doc" ) == 0 && ac > 5)
+			pipex_here_doc(ac, av, arr);
+		else
+			multi_pipex(ac, av, arr);
 	}
 	else
 		write(1, "Error arg\n", 10);

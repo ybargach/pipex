@@ -6,12 +6,12 @@
 /*   By: ybargach <ybargach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:57:06 by ybargach          #+#    #+#             */
-/*   Updated: 2023/05/16 20:49:15 by ybargach         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:33:16 by ybargach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include "pipex.h"
+#include "pipex_bonus.h"
+
 char	*ft_save(char *str)
 {
 	int		a;
@@ -83,7 +83,7 @@ char	*ft_read(char *stock, int fd)
 		if (a == -1)
 			return (free(p), free(stock), NULL);
 		p[a] = '\0';
-		stock = ft_strjoina(stock, p);
+		stock = ft_strjoin_get(stock, p);
 	}
 	free(p);
 	return (stock);

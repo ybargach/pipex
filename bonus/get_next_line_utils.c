@@ -6,12 +6,12 @@
 /*   By: ybargach <ybargach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 17:10:43 by ybargach          #+#    #+#             */
-/*   Updated: 2023/05/16 20:48:59 by ybargach         ###   ########.fr       */
+/*   Updated: 2023/05/20 17:33:19 by ybargach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-#include "get_next_line.h"
+#include "pipex_bonus.h"
+
 char	*ft_strchr(char *str, int c)
 {
 	int	a;
@@ -59,7 +59,7 @@ char	*ft_strdup(char *str)
 	return (p);
 }
 
-char	*ft_strjoina(char *s1, char *s2)
+char	*ft_strjoin_get(char *s1, char *s2)
 {
 	int		a;
 	int		b;
