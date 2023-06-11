@@ -6,11 +6,23 @@
 /*   By: ybargach <ybargach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:32:01 by ybargach          #+#    #+#             */
-/*   Updated: 2023/05/20 14:33:30 by ybargach         ###   ########.fr       */
+/*   Updated: 2023/05/31 17:36:09 by ybargach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	ft_strlen(const char *str)
+{
+	int	a;
+
+	a = 0;
+	if (!str)
+		return (0);
+	while (str[a])
+		a++;
+	return (a);
+}
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -24,6 +36,25 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, &s[a], 1);
 		a++;
 	}
+}
+
+char	*ft_strdup(char *str)
+{
+	int		a;
+	int		b;
+	char	*p;
+
+	if (!str)
+		return (NULL);
+	p = malloc((ft_strlen(str) + 1) * sizeof(char));
+	if (!p)
+		return (NULL);
+	a = 0;
+	b = 0;
+	while (str[a])
+		p[b++] = str[a++];
+	p[b] = '\0';
+	return (p);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, int n)

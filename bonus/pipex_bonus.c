@@ -6,7 +6,7 @@
 /*   By: ybargach <ybargach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 10:20:25 by ybargach          #+#    #+#             */
-/*   Updated: 2023/05/20 17:46:45 by ybargach         ###   ########.fr       */
+/*   Updated: 2023/06/05 20:04:05 by ybargach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,15 @@ void	execve_path(char **av, t_pipex arr)
 	close(arr.p[0]);
 	close(arr.p[1]);
 	arr.exe = execve(av[arr.a], arr.cmd, arr.env);
+	if (arr.exe == -1)
+	{
+		ft_putstr_fd(*arr.cmd, 2);
+		write(2, ": Command not found\n", 20);
+	}
+	exit(127);
 }
 
-void	create_child(int ac, char **av, t_pipex arr)
+int	create_child(int ac, char **av, t_pipex arr)
 {
 	if (pipe(arr.p) == -1)
 		error_pipe();
@@ -32,22 +38,21 @@ void	create_child(int ac, char **av, t_pipex arr)
 		create_parent(ac, av, arr);
 	}
 	else
-	{
 		close_dup2(arr);
-		wait(NULL);
-	}
+	return (arr.pid1);
 }
 
 void	access_function(char **av, t_pipex arr)
 {
 	arr.b = 1;
 	arr.c = 0;
+	arr.cmd = ft_split(av[arr.a], ' ');
 	while (arr.path && arr.path[arr.b])
 	{
-		arr.cmd = ft_split(av[arr.a], ' ');
 		arr.fcmd = ft_strjoin(arr.path[arr.b], arr.cmd[0]);
 		if (access(arr.fcmd, X_OK) == 0)
 			break ;
+		free(arr.fcmd);
 		arr.b++;
 	}
 	execve_function(arr);
@@ -61,8 +66,11 @@ void	execve_function(t_pipex arr)
 	close(arr.p[1]);
 	arr.exe = execve(arr.fcmd, arr.cmd, arr.env);
 	if (arr.exe == -1)
-		write(2, "Command not found:\n", 19);
-	exit(0);
+	{
+		ft_putstr_fd(*arr.cmd, 2);
+		write(2, ": Command not found\n", 20);
+	}
+	exit(127);
 }
 
 int	main(int ac, char **av, char **env)
@@ -80,6 +88,9 @@ int	main(int ac, char **av, char **env)
 			multi_pipex(ac, av, arr);
 	}
 	else
+	{
 		write(1, "Error arg\n", 10);
+		exit (1);
+	}
 	return (0);
 }
